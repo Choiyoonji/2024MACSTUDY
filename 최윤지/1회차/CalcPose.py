@@ -8,6 +8,9 @@ from numpy import linalg
 from numpy import matrix as mat
 from geometry_msgs import Point
 
+# [0]: rotation -> 'r', translation -> 't'
+# [1]: x, y, z, n, o, a
+# [2]: radian or meter
 transformation_list = [['r', 'x', pi/2], ['t', 'a', 3], ['r','z', pi/2], ['t', 'o', 5]]
 
 class TransformMat:
