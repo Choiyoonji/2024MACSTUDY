@@ -66,7 +66,7 @@ class PointSub:
                     pNew = pNew * self.tm.RotX(i[2])
                 else:
                     print("Check transformation_list!!!")
-            elif i[1] == 't':
+            elif i[0] == 't':
                 if i[1] == 'x':
                     pNew = self.tm.Trans(i[2], 0, 0) * pNew
                 elif i[1] == 'y':
