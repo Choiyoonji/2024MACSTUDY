@@ -85,7 +85,7 @@ class PointSub:
         print(pNew)
     
 def main():
-    rospy.init_node('calcFK')
+    rospy.init_node('CalcPose')
     rate = rospy.Rate(60)
     
     point = PointSub()
