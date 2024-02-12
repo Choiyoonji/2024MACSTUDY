@@ -31,7 +31,7 @@ custom_chain = Chain(name='robot_arm', links=[
       name="link3",
       origin_translation=[10, 0, 0],
       origin_orientation=[0, 0, 0],
-      rotation=[0, 1, 0],
+      rotation=[0, 0, 0],
     )
 ])
 
