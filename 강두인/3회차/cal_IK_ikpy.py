@@ -40,7 +40,12 @@ target_position = [12, 12, 12]
 
 # 역기구학
 ik_target = custom_chain.inverse_kinematics(target_position)
-print(np.round(np.rad2deg(ik_target), 3))
+_, a, b, c, _ = np.round(np.rad2deg(ik_target), 3)
+# print(np.round(np.rad2deg(ik_target), 3))
+
+# 결과 출력
+print(custom_chain.forward_kinematics([0] * 5)[:3, 3])
+print(f'First Theta: {a}, Second Theta: {b}, Third Theta: {c}')
 
 # Robot_arm 시각화
 ax = matplotlib.pyplot.figure().add_subplot(111, projection='3d')
