@@ -36,7 +36,10 @@ class TransformMat:
         return mat([[1, 0, 0, x], [0, 1, 0, y,], [0, 0, 1, z], [0, 0, 0, 1]])
 
     def CalcP(self, p):
+        e = np.eye(3)
+        e = np.vstack((e, [0, 0, 0]))
         pNew = mat([p.x, p.y, p.z, 1]).T
+        pNew = np.concatenate((e, pNew), axis=1)
         for i in self.transformation_list:
             if i[0] == 'r':
                 if i[1] == 'x':
@@ -70,22 +73,22 @@ class TransformMat:
                     print("Check transformation_list!!!")
                     
         print(pNew)
-        return pNew.tolist()
+        return pNew[:3,3].T.tolist()[0]
 
 class PointSub:
     def __init__(self):
         transformation_list = [['r', 'x', pi/2], ['t', 'a', 3], ['r','z', pi/2], ['t', 'o', 5]]
 
         self.tm = TransformMat(transformation_list)
-        pose = rospy.Subscriber('/pose', Point, self.callback_pose, queue_size=1)
-        p = pose()
+        self.pose = rospy.Subscriber('/pose', Point, self.callback_pose, queue_size=1)
+        self.p = Point()
         
     def callback_pose(self, msg):
         self.p.x = msg.x
         self.p.y = msg.y
         self.p.z = msg.z
-        self.tm.CalcP(self.p)
-    
+        _ = self.tm.CalcP(self.p)
+        print(_)
     
 def main():
     rospy.init_node('CalcPose')

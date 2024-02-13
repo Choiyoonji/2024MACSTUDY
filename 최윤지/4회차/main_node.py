@@ -29,8 +29,9 @@ class PointSub:
         self.p.x = msg.x
         self.p.y = msg.y
         self.p.z = msg.z
-        # target_position = self.tm.CalcP(self.p)
-        target_position = [msg.x, msg.y, msg.z]
+        target_position = self.tm.CalcP(self.p)
+        print(target_position)
+        # target_position = [msg.x, msg.y, msg.z]
         theta = self.calcIK.IK(target_position, visual)
         print(theta)
 
