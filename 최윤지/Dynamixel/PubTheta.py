@@ -7,9 +7,9 @@ from manipulator.msg import *
 import math
 
 
-AX_DXL_ID = [5]
-XM_DXL_ID_P1 = [3]
-XM_DXL_ID_P2 = [0]
+AX_DXL_ID = [9]
+XM_DXL_ID_P1 = [4]
+XM_DXL_ID_P2 = []
 
     
 class ThetaPub:
@@ -76,10 +76,15 @@ def main():
     
     while not rospy.is_shutdown():
         t = list(map(int, input('모터 각도 입력(ax, xm1, xm2) : ').split()))
+        Theta = SyncSetPosition()
+        
+        Theta.ax_id = AX_DXL_ID
+        Theta.xm_id_p1 = XM_DXL_ID_P1
+        Theta.xm_id_p2 = XM_DXL_ID_P2
         
         Theta.ax_position.append(ax_deg_to_position(t[0]))
         Theta.xm_position_p1.append(xm_deg_to_position(t[1]))
-        Theta.xm_position_p2.append(xm_deg_to_position(t[2]))
+        # Theta.xm_position_p2.append(xm_deg_to_position(t[2]))
         
         theta_pub.ThetaPublisher.publish(Theta)
 

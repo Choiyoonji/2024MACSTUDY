@@ -49,9 +49,9 @@ AX_ADDR_PUNCH                  = 48 # 모터에 가하는 최소 전류 -> 다�
 
 AX_PROTOCOL_VERSION = 1.0
 
-AX_DXL_ID = [5]
+AX_DXL_ID = [9]
 
-BAUDRATE = 115200
+BAUDRATE = 1000000
 
 AX_TORQUE_ENABLE = 1
 AX_TORQUE_DISABLE = 0
@@ -92,8 +92,8 @@ XM_ADDR_PRESENT_POSITION        = 132
 XM_PROTOCOL_VERSION_1 = 1.0
 XM_PROTOCOL_VERSION_2 = 2.0
 
-XM_DXL_ID_P1 = [3]
-XM_DXL_ID_P2 = [0]
+XM_DXL_ID_P1 = [4]
+XM_DXL_ID_P2 = []
 
 
 XM_TORQUE_ENABLE = 1
@@ -103,7 +103,7 @@ xm_packet_handler_p1 = PacketHandler(XM_PROTOCOL_VERSION_1)
 xm_packet_handler_p2 = PacketHandler(XM_PROTOCOL_VERSION_2)
 
 
-MOTOR_VELOCITY = [40, 10]
+MOTOR_VELOCITY = [0, 10, 40, 40, 40, 40, 40, 40, 40, 40]
 
 
 #**********************************************************************************#
@@ -143,15 +143,15 @@ class MotorControlHub:
 
     def set_goal_pos(self,data:SyncSetPosition):
         for idx in range(len(data.ax_id)):
-            # print("Set Goal AX_Position of ID %s = %s" % (data.ax_id[idx], data.ax_position[idx]))
+            print("Set Goal AX_Position of ID %s = %s" % (data.ax_id[idx], data.ax_position[idx]))
             ax_packet_handler.write2ByteTxRx(port_handler,data.ax_id[idx], AX_ADDR_GOAL_POSITION, data.ax_position[idx])
 
         for idx in range(len(data.xm_id_p1)):
-            # print("Set Goal XM_Position of ID %s = %s" % (data.xm_id[idx], data.xm_position[idx]))
+            print("Set Goal XM_Position of ID %s = %s" % (data.xm_id_p1[idx], data.xm_position_p1[idx]))
             xm_packet_handler_p1.write4ByteTxRx(port_handler,data.xm_id_p1[idx], XM_ADDR_GOAL_POSITION, data.xm_position_p1[idx])
 
         for idx in range(len(data.xm_id_p2)):
-            # print("Set Goal XM_Position of ID %s = %s" % (data.xm_id[idx], data.xm_position[idx]))
+            print("Set Goal XM_Position of ID %s = %s" % (data.xm_id_p2[idx], data.xm_position_p2[idx]))
             xm_packet_handler_p2.write4ByteTxRx(port_handler,data.xm_id_p2[idx], XM_ADDR_GOAL_POSITION, data.xm_position_p2[idx])
 
 
