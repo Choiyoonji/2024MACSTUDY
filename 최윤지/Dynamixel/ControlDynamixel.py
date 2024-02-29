@@ -49,7 +49,7 @@ AX_ADDR_PUNCH                  = 48 # 모터에 가하는 최소 전류 -> 다�
 
 AX_PROTOCOL_VERSION = 1.0
 
-AX_DXL_ID = [9]
+AX_DXL_ID = [1, 4, 5]
 
 BAUDRATE = 1000000
 
@@ -92,7 +92,7 @@ XM_ADDR_PRESENT_POSITION        = 132
 XM_PROTOCOL_VERSION_1 = 1.0
 XM_PROTOCOL_VERSION_2 = 2.0
 
-XM_DXL_ID_P1 = [4]
+XM_DXL_ID_P1 = [2]
 XM_DXL_ID_P2 = []
 
 
@@ -103,7 +103,7 @@ xm_packet_handler_p1 = PacketHandler(XM_PROTOCOL_VERSION_1)
 xm_packet_handler_p2 = PacketHandler(XM_PROTOCOL_VERSION_2)
 
 
-MOTOR_VELOCITY = [0, 10, 40, 40, 40, 40, 40, 40, 40, 40]
+MOTOR_VELOCITY = [80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
 
 
 #**********************************************************************************#
@@ -124,14 +124,14 @@ class MotorControlHub:
         self.set_pos.xm_id_p1 = XM_DXL_ID_P1
         self.set_pos.xm_id_p2 = XM_DXL_ID_P2
 
-        self.set_pos.ax_position = [200]
-        self.set_pos.xm_position_p1 = [2048]
+        self.set_pos.ax_position = [500, 500, 500]
+        self.set_pos.xm_position_p1 = [1500]
         self.set_pos.xm_position_p2 = [2048]
 
         self.set_ax_speed.id = AX_DXL_ID
         self.set_ax_speed.speed = [80]
         
-        rospy.Subscriber('set_position',SyncSetPosition, self.set_goal_pos_callback, queue_size=1)
+        rospy.Subscriber('set_position', SyncSetPosition, self.set_goal_pos_callback, queue_size=1)
         
         self.pos_pub = rospy.Publisher('present_position', SyncSetPosition, queue_size=1)
         self.ax_speed_pub = rospy.Publisher('present_ax_speed', AXSyncSetMovingSpeed, queue_size=1)
@@ -153,7 +153,6 @@ class MotorControlHub:
         for idx in range(len(data.xm_id_p2)):
             print("Set Goal XM_Position of ID %s = %s" % (data.xm_id_p2[idx], data.xm_position_p2[idx]))
             xm_packet_handler_p2.write4ByteTxRx(port_handler,data.xm_id_p2[idx], XM_ADDR_GOAL_POSITION, data.xm_position_p2[idx])
-
 
 
     def present_position_callback(self):
