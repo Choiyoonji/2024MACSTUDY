@@ -18,19 +18,26 @@ custom_chain = Chain(name='robot_arm', links=[
     ),
     URDFLink(
       name="link1",
-      origin_translation=[0, 0, 10],
+      origin_translation=[0, 0, 11.6],
       origin_orientation=[0, 0, 0],
       rotation=[0, 1, 0],
     ),
     URDFLink(
       name="link2",
-      origin_translation=[10, 0, 0],
+      origin_translation=[11, 0, 0],
       origin_orientation=[0, 0, 0],
       rotation=[0, 1, 0],
     ),
     URDFLink(
       name="link3",
-      origin_translation=[10, 0, 0],
+      origin_translation=[8, 0, 0],
+      origin_orientation=[0, 0, 0],
+      rotation=[0, 1, 0],
+    ),
+    # 맨 끝 모터 축으로 부터 펜까지의 거리, 항상 바닥을 바라보고 있어야함
+    URDFLink(
+      name="link4",
+      origin_translation=[5, 0, 0],
       origin_orientation=[0, 0, 0],
       rotation=[0, 0, 0],
     )
@@ -90,21 +97,20 @@ def main():
     # 로봇팔 원점 세팅
     pos_init = list(map(int, input('Init Pos[x, y, z] :').split()))
 
-
     # 원하는 End Effector 좌표 (x, y, z)
     target_position = list(map(int, input('End Effector[x, y, z] :').split()))
 
     # 역기구학
     ik_target = custom_chain.inverse_kinematics(target_position)
-    _, a, b, c, _ = np.round(np.rad2deg(ik_target), 3)
-    # print(np.round(np.rad2deg(ik_target), 3))
+    # _, a, b, c, _ = np.round(np.rad2deg(ik_target), 3)
+    print(np.round(np.rad2deg(ik_target), 3))
 
-    # 로봇팔 Joint간 각도결과 출력
-    print(f'First Theta: {a}, Second Theta: {b}, Third Theta: {c}')
+    # # 로봇팔 Joint간 각도결과 출력
+    # print(f'First Theta: {a}, Second Theta: {b}, Third Theta: {c}')
     
-    # Foward Kinematics로 End Effector 위치 확인
-    transformation_list = [['r', 'a', a], ['t', 'a', 10], ['r', 'o', b], ['t', 'n', 10], ['r', 'o', c], ['t', 'n', 10]]
-    print(cal_fk(pos_init, transformation_list)[:3, 3])
+    # # Foward Kinematics로 End Effector 위치 확인
+    # transformation_list = [['r', 'a', a], ['t', 'a', 10], ['r', 'o', b], ['t', 'n', 10], ['r', 'o', c], ['t', 'n', 10]]
+    # print(cal_fk(pos_init, transformation_list)[:3, 3])
 
     # Robot_arm 시각화
     ax = matplotlib.pyplot.figure().add_subplot(111, projection='3d')
