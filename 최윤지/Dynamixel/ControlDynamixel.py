@@ -49,7 +49,7 @@ AX_ADDR_PUNCH                  = 48 # 모터에 가하는 최소 전류 -> 다�
 
 AX_PROTOCOL_VERSION = 1.0
 
-AX_DXL_ID = [1, 4, 5]
+AX_DXL_ID = [1, 2, 3]
 
 BAUDRATE = 1000000
 
@@ -92,7 +92,7 @@ XM_ADDR_PRESENT_POSITION        = 132
 XM_PROTOCOL_VERSION_1 = 1.0
 XM_PROTOCOL_VERSION_2 = 2.0
 
-XM_DXL_ID_P1 = [2]
+XM_DXL_ID_P1 = [0]
 XM_DXL_ID_P2 = []
 
 
@@ -103,7 +103,7 @@ xm_packet_handler_p1 = PacketHandler(XM_PROTOCOL_VERSION_1)
 xm_packet_handler_p2 = PacketHandler(XM_PROTOCOL_VERSION_2)
 
 
-MOTOR_VELOCITY = [80, 80, 80, 80, 80, 80, 80, 80, 80, 80]
+MOTOR_VELOCITY = [100, 100, 100, 100]
 
 
 #**********************************************************************************#
@@ -129,7 +129,7 @@ class MotorControlHub:
         self.set_pos.xm_position_p2 = [2048]
 
         self.set_ax_speed.id = AX_DXL_ID
-        self.set_ax_speed.speed = [80]
+        self.set_ax_speed.speed = [40]
         
         rospy.Subscriber('set_position', SyncSetPosition, self.set_goal_pos_callback, queue_size=1)
         
